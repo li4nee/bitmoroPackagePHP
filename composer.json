@@ -1,0 +1,17 @@
+{
+    "name": "bitmoro.com/bitmoro-package",
+    "description": "package to integrate bitmoro messaging services ",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "BitmoroCom\\BitmoroPackage\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Li4nee",
+            "email": "nishantpokharel9@gmail.com"
+        }
+    ],
+    "require": {}
+}
