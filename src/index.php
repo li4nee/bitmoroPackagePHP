@@ -99,10 +99,10 @@ class OtpHandler {
     private $token;
     public static $validOtp = [];
     private $sms;
-    public static $exp = 40000;
+    public static $exp = 180000;
     private $otpLength;
 
-    public function __construct($token, $exp = 40000, $otpLength = 10) {
+    public function __construct($token, $exp = 180000, $otpLength = 10) {
         self::$exp = $exp;
         $this->sms = new MessageHandler($token);
         $this->token = $token;
@@ -110,10 +110,6 @@ class OtpHandler {
     }
 
     public function sendOtpMessage($number, $senderId = null) {
-        if (is_array($number)) {
-            throw new Exception("Number should be a string, not an array.");
-        }
-    
         $otp = $this->generateOtp($this->otpLength);
         $message = "Your OTP code is {$otp}";
     
