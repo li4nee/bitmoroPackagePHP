@@ -15,9 +15,13 @@ Alternatively, you can clone the repository and include the files directly in yo
 ### Initial Setup
 First, you need to include the package and initialize the main classes using your Bitmoro API token:
 ```
-include 'index.php';
+require 'vendor/autoload.php'; // If using Composer
 
-$token = 'your-api-token-here';
+use Bitmoro\BitmoroPackage\MessageSender;
+use Bitmoro\BitmoroPackage\MessageScheduler;
+use Bitmoro\BitmoroPackage\OtpHandler;
+
+$token = 'your-api-token-here'; // Replace with your Bitmoro API token
 
 $messageSender = new MessageSender($token);
 $messageScheduler = new MessageScheduler($token);
