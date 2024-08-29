@@ -1,5 +1,7 @@
 <?php
 
+namespace Bitmoro\BitmoroPackage;
+
 class MessageApiDto {
     public $number;
     public $message;
@@ -42,13 +44,13 @@ class MessageHandler {
         curl_close($ch);
 
         if ($statusCode >= 400) {
-            throw new Exception("Error: {$response}");
+            throw new \Exception("Error: {$response}");
         }
         return true;
     }
 }
 
-class MessageSenderError extends Exception {}
+class MessageSenderError extends \Exception {}
 
 class MessageSender {
     private $sms;
@@ -62,7 +64,7 @@ class MessageSender {
         try {
             $this->sms->sendMessage($sendBody);
             return true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new MessageSenderError($e->getMessage());
         }
     }
@@ -81,7 +83,7 @@ class MessageScheduler {
         $timeDifference = strtotime($timer) - time();
 
         if ($timeDifference < 0) {
-            throw new Exception("Scheduled time must be in the future.");
+            throw new \Exception("Scheduled time must be in the future.");
         }
 
         sleep($timeDifference);
@@ -89,7 +91,7 @@ class MessageScheduler {
         try {
             $this->sms->sendMessage($sendBody);
             echo "Message sent successfully at the scheduled time.\n";
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo "Failed to send the scheduled message: {$e->getMessage()}\n";
         }
     }
@@ -119,17 +121,16 @@ class OtpHandler {
             $this->sms->sendMessage($sendBody);
             $this->registerOtp($number, $otp);
             return true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new MessageSenderError($e->getMessage());
         }
     }
     
-
     private function registerOtp($number, $otp) {
         if (isset(self::$validOtp[$number])) {
             $existingOtp = self::$validOtp[$number];
             $timeLeft = strtotime($existingOtp['time']) + self::$exp - time();
-            throw new Exception("You can only request OTP after {$timeLeft} second(s)");
+            throw new \Exception("You can only request OTP after {$timeLeft} second(s)");
         }
 
         $otpBody = [
@@ -160,9 +161,10 @@ class OtpHandler {
 
     public function verifyOtp($number, $otp) {
         if (!isset(self::$validOtp[$number])) {
-            throw new Exception("No OTP found for number {$number}");
+            throw new \Exception("No OTP found for number {$number}");
         }
         return self::$validOtp[$number]['otp'] === $otp;
     }
 }
 ?>
+
